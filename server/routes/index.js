@@ -13,19 +13,19 @@ router.post("/login", loginUser);
 
 //business routes
 
-router.post("/business", authMiddleware, roleMiddleware([ROLES.BUSINESS_OWNER]), createBusiness);
+router.post("/business", authMiddleware, roleMiddleware([ROLES.BUSINESS_OWNER]),  createBusiness);
 
-//router.delete("/:businessId", authMiddleware, businessOwnerMiddleware, deleteBusiness);
+
 
 
 //customer routes
-router.post("/customers/appointments", authMiddleware, roleMiddleware([ROLES.CUSTOMER]), createAppointment);
+router.post("/customers/appointments",authMiddleware, roleMiddleware([ROLES.CUSTOMER]),createAppointment);
 
 
-router.get("/customers/appointments", authMiddleware, roleMiddleware([ROLES.CUSTOMER]), getAppointments);
+router.get("/customers/appointments",authMiddleware,roleMiddleware([ROLES.CUSTOMER]),  getAppointments);
 
 
-router.put("/customers/appointments/:id", authMiddleware, roleMiddleware([ROLES.CUSTOMER]), updateAppointment);
+router.put("/customers/appointments/:id",authMiddleware, roleMiddleware([ROLES.CUSTOMER]), updateAppointment);
 
 
 router.delete("/customers/appointments/:id", authMiddleware, roleMiddleware([ROLES.CUSTOMER]), deleteAppointment);

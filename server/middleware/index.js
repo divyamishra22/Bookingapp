@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
 
-const authMiddleware = async (req, res, next) => {
+exports.authMiddleware = async (req, res, next) => {
   try {
     const token = req.header("Authorization");
     if (!token) return res.status(401).json({ message: "Access Denied" });
