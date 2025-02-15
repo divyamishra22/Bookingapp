@@ -1,99 +1,122 @@
+/* Full-page responsive container */
 .business-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-  }
-  
-  .business-card {
-    background: white;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 350px;
-    text-align: center;
-  }
-  
-  h2 {
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  .input-group {
-    display: flex;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+/* Flexbox to arrange business details and availability side-by-side */
+.business-content {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 90%;
+  max-width: 1000px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* Styling for each card */
+.business-card,
+.availability-section {
+  flex: 1;
+  background: #fff;
+  color: #333;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.2);
+  min-width: 400px;
+  text-align: left;
+}
+
+/* Ensure form inputs are full width */
+.input-group input,
+.availability-section input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+/* Google My Business Button */
+.gmb-button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 8px;
+  display: block;
+  text-align: center;
+  width: auto;
+  min-width: 180px;
+  transition: 0.3s;
+  margin: 10px 0;
+}
+
+.gmb-button:hover {
+  background: #0056b3;
+}
+
+.gmb-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Availability List */
+.availability-list {
+  margin-top: 10px;
+  padding: 0;
+  list-style-type: none;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.availability-list li {
+  background: #f4f4f4;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 5px;
+  font-size: 1rem;
+}
+
+/* Submit Button */
+.submit-button {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 8px;
+  display: block;
+  margin: 20px auto;
+  width: auto;
+  min-width: 180px;
+  transition: 0.3s;
+}
+
+.submit-button:hover {
+  background: #218838;
+}
+
+/* Ensure proper row layout */
+@media (max-width: 900px) {
+  .business-content {
     flex-direction: column;
+    align-items: center;
   }
-  
-  .input-group input {
-    padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
-  
-  .gmb-button {
-    background: #4285f4;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 10px 0;
-    transition: background 0.3s;
-  }
-  
-  .gmb-button:hover {
-    background: #357ae8;
-  }
-  
-  .gmb-button:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-  }
-  
-  h3 {
-    margin-top: 20px;
-  }
-  
+
+  .business-card,
   .availability-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    width: 100%;
+    max-width: 500px;
   }
-  
-  .availability-section input {
-    padding: 8px;
-    margin: 5px;
-    width: 90%;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
-  
-  .add-availability {
-    background: #28a745;
-    color: white;
-    padding: 8px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  
-  .add-availability:hover {
-    background: #218838;
-  }
-  
-  .availability-list {
-    list-style: none;
-    padding: 0;
-    margin-top: 10px;
-  }
-  
-  .availability-list li {
-    background: #f1f1f1;
-    padding: 8px;
-    margin: 5px 0;
-    border-radius: 5px;
-  }
-  
+}

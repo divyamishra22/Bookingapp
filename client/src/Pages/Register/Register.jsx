@@ -37,7 +37,7 @@ const Register = () => {
           <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
           <select name="role" value={formData.role} onChange={handleChange}>
             <option value="customer">Customer</option>
-            <option value="business">Business Owner</option>
+            <option value="owner">Business Owner</option>
           </select>
           <button type="submit">Register</button>
         </form>

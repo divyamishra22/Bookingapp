@@ -6,14 +6,14 @@ const CreateBusiness = () => {
     name: "",
     location: "",
     service: "",
-    ownerName: "",
     contact: "",
-    gmbLinked: false, // Track if GMB is linked
+    gmbReferenceId: "",
     availability: [],
   });
 
   const [newDate, setNewDate] = useState("");
   const [newSlots, setNewSlots] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setBusiness({ ...business, [e.target.name]: e.target.value });
@@ -36,27 +36,53 @@ const CreateBusiness = () => {
   };
 
   const linkGMB = () => {
-    // Mock linking to GMB (No ID shown)
-    setBusiness((prev) => ({ ...prev, gmbLinked: true }));
-    alert("Google My Business linked successfully!");
+    setBusiness((prev) => ({
+      ...prev,
+      gmbReferenceId: `gmb-${Date.now()}`,
+    }));
   };
 
-  const isFormComplete = business.name && business.location && business.service && business.ownerName && business.contact;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      console.log("Business Data Submitted:", business);
+      alert("Business created successfully!");
+
+      setBusiness({
+        name: "",
+        location: "",
+        service: "",
+        contact: "",
+        gmbReferenceId: "",
+        availability: [],
+      });
+    } catch (error) {
+      alert("Failed to create business.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="business-container">
+      <div className="header">
+        <h1>Register Your Business</h1>
+        <p>Join the best platform to grow your business online.</p>
+      </div>
+
       <div className="business-card">
-        <h2>Create Your Business</h2>
+        <h2>Business Details</h2>
         <div className="input-group">
           <input type="text" name="name" placeholder="Business Name" value={business.name} onChange={handleChange} required />
           <input type="text" name="location" placeholder="Location" value={business.location} onChange={handleChange} required />
           <input type="text" name="service" placeholder="Service Offered" value={business.service} onChange={handleChange} required />
-          <input type="text" name="ownerName" placeholder="Owner Name" value={business.ownerName} onChange={handleChange} required />
           <input type="text" name="contact" placeholder="Contact Number" value={business.contact} onChange={handleChange} required />
         </div>
 
-        <button className="gmb-button" onClick={linkGMB} disabled={!isFormComplete || business.gmbLinked}>
-          {business.gmbLinked ? "GMB Linked ✔" : "Link Google My Business"}
+        <button className="gmb-button" onClick={linkGMB} disabled={!business.name || !business.location || !business.service || !business.contact}>
+          {business.gmbReferenceId ? `GMB Linked ✔ (${business.gmbReferenceId})` : "Link Google My Business"}
         </button>
 
         <h3>Availability</h3>
@@ -73,6 +99,10 @@ const CreateBusiness = () => {
             <li key={index}>{slot.date}: {slot.slots.join(", ")}</li>
           ))}
         </ul>
+
+        <button className="submit-button" onClick={handleSubmit} disabled={isSubmitting}>
+          {isSubmitting ? "Submitting..." : "Submit"}
+        </button>
       </div>
     </div>
   );
