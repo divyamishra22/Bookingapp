@@ -1,17 +1,19 @@
 import { useState } from "react";
 import "./CreateBusiness.css";
+import axios from "axios";
 
 const CreateBusiness = () => {
   const [business, setBusiness] = useState({
     name: "",
     location: "",
-    service: "",
+    services: "",
     contact: "",
     gmbReferenceId: "",
     availability: [],
+  
   });
 
-  const [newDate, setNewDate] = useState("");
+ const [newDate, setNewDate] = useState("");
   const [newSlots, setNewSlots] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -40,26 +42,31 @@ const CreateBusiness = () => {
       ...prev,
       gmbReferenceId: `gmb-${Date.now()}`,
     }));
+    alert("Successfully Linked")
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    try {
-      console.log("Business Data Submitted:", business);
-      alert("Business created successfully!");
+    const token = localStorage.getItem("token");
+  console.log("Submitting business data:", business);
 
-      setBusiness({
-        name: "",
-        location: "",
-        service: "",
-        contact: "",
-        gmbReferenceId: "",
-        availability: [],
-      });
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/business",
+        business,
+        {
+          headers: {
+            "Authorization": token, // Send JWT in header
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("Business Created:", response.data);
     } catch (error) {
-      alert("Failed to create business.");
+      console.log("Failed to create business."+  error.stack);
     } finally {
       setIsSubmitting(false);
     }
@@ -77,28 +84,28 @@ const CreateBusiness = () => {
         <div className="input-group">
           <input type="text" name="name" placeholder="Business Name" value={business.name} onChange={handleChange} required />
           <input type="text" name="location" placeholder="Location" value={business.location} onChange={handleChange} required />
-          <input type="text" name="service" placeholder="Service Offered" value={business.service} onChange={handleChange} required />
+          <input type="text" name="services" placeholder="Service Offered" value={business.services} onChange={handleChange} required />
           <input type="text" name="contact" placeholder="Contact Number" value={business.contact} onChange={handleChange} required />
         </div>
 
-        <button className="gmb-button" onClick={linkGMB} disabled={!business.name || !business.location || !business.service || !business.contact}>
-          {business.gmbReferenceId ? `GMB Linked ✔ (${business.gmbReferenceId})` : "Link Google My Business"}
+        <button className="gmb-button" onClick={linkGMB} disabled={!business.name || !business.location || !business.services || !business.contact}>
+          Link Google My Business
         </button>
 
-        <h3>Availability</h3>
+         <h3>Availability</h3>
         <div className="availability-section">
           <input type="date" value={newDate} onChange={(e) => setNewDate(e.target.value)} required />
           <input type="text" placeholder="Time Slots (comma separated)" value={newSlots} onChange={(e) => setNewSlots(e.target.value)} required />
           <button className="add-availability" onClick={addAvailability}>
             Add Availability
           </button>
-        </div>
+        </div> 
 
-        <ul className="availability-list">
+         <ul className="availability-list">
           {business.availability.map((slot, index) => (
             <li key={index}>{slot.date}: {slot.slots.join(", ")}</li>
           ))}
-        </ul>
+        </ul> 
 
         <button className="submit-button" onClick={handleSubmit} disabled={isSubmitting}>
           {isSubmitting ? "Submitting..." : "Submit"}
