@@ -33,7 +33,7 @@ const AuthProvider = ({ children }) => {
       if (user.role === "owner") {
         navigate("/business");
       } else {
-        navigate("/customer-dashboard");
+        navigate("/view");
       }
     } catch (error) {
       console.error("Login failed:", error.response?.data?.message || error.message);
