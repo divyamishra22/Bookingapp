@@ -1,120 +1,99 @@
-/* Full Page Background */
 .business-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background: #f4f7fc; /* Soft Light Blue Background */
+    height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
   }
   
-  /* Business Form Box */
-  .business-box {
-    width: 380px; /* Reduced width */
-    padding: 20px;
+  .business-card {
     background: white;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 350px;
     text-align: center;
   }
   
-  .business-box h2 {
-    margin-bottom: 15px;
-    font-size: 20px;
+  h2 {
     color: #333;
+    margin-bottom: 20px;
   }
   
-  /* Input Fields */
-  .business-box input {
-    width: 90%; /* Reduced width */
-    padding: 10px;
-    margin: 6px 0;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 14px;
-    background: #fafafa;
-    transition: all 0.3s ease;
-  }
-  
-  .business-box input:focus {
-    border-color: #007bff;
-    background: #fff;
-    outline: none;
-  }
-  
-  /* Buttons */
-  .business-box button {
-    width: 95%; /* Slightly smaller */
-    padding: 10px;
-    background: #007bff;
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.3s ease;
-    margin-top: 8px;
-  }
-  
-  .business-box button:hover {
-    background: #0056b3;
-  }
-  
-  /* Availability Section */
-  .availability-section {
-    margin-top: 15px;
-    padding: 12px;
-    background: #eef2ff;
-    border-radius: 8px;
-    text-align: center;
-  }
-  
-  /* Availability Inputs */
-  .availability-inputs {
+  .input-group {
     display: flex;
-    flex-direction: column; /* Stack inputs vertically */
+    flex-direction: column;
+  }
+  
+  .input-group input {
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .gmb-button {
+    background: #4285f4;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 0;
+    transition: background 0.3s;
+  }
+  
+  .gmb-button:hover {
+    background: #357ae8;
+  }
+  
+  .gmb-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+  
+  h3 {
+    margin-top: 20px;
+  }
+  
+  .availability-section {
+    display: flex;
+    flex-direction: column;
     align-items: center;
   }
   
-  .availability-inputs input {
-    width: 85%; /* Smaller input fields */
+  .availability-section input {
+    padding: 8px;
+    margin: 5px;
+    width: 90%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
   }
   
-  /* Availability Button */
-  .availability-section .add-availability {
-    width: 85%;
+  .add-availability {
     background: #28a745;
-    font-size: 14px;
+    color: white;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
   }
   
-  .availability-section .add-availability:hover {
+  .add-availability:hover {
     background: #218838;
   }
   
-  /* Availability List */
   .availability-list {
     list-style: none;
     padding: 0;
-    margin-top: 8px;
+    margin-top: 10px;
   }
   
   .availability-list li {
-    padding: 6px;
-    background: #ddd;
+    background: #f1f1f1;
+    padding: 8px;
     margin: 5px 0;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: bold;
-  }
-  
-  /* Success Message */
-  .success-msg {
-    background: #d4edda;
-    color: #155724;
-    padding: 6px;
-    border-radius: 6px;
-    margin-top: 8px;
-    font-size: 13px;
-    font-weight: bold;
+    border-radius: 5px;
   }
   
