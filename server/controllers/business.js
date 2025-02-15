@@ -1,4 +1,5 @@
 const Business = require("../models/business");
+const Appointment = require("../models/appointment")
 
 
 exports.createBusiness = async (req, res) => {
@@ -58,7 +59,7 @@ exports.searchBusinesses = async (req, res) => {
 
 exports.getBusinessAppointments = async (req, res) => {
   try {
-    const { gmbReferenceId } = req.params;
+    const { gmbReferenceId } = req.body;
 
     if (!gmbReferenceId) {
       return res.status(400).json({ message: "GMB reference ID is required" });

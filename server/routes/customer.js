@@ -11,16 +11,16 @@ const ROLES = require("../utils/role")
 const router = express.Router();
 
 
-router.post("/customers/appointments",authMiddleware, roleMiddleware([ROLES.CUSTOMER]),createAppointment);
+router.post("/appointments",authMiddleware, roleMiddleware([ROLES.CUSTOMER]),createAppointment);
 
 
-router.get("/customers/appointments",authMiddleware,roleMiddleware([ROLES.CUSTOMER]),  getAppointments);
+router.get("appointments",authMiddleware,roleMiddleware([ROLES.CUSTOMER]),  getAppointments);
 
 
-router.put("/customers/appointments/:id",authMiddleware, roleMiddleware([ROLES.CUSTOMER]), updateAppointment);
+router.put("appointments/:id",authMiddleware, roleMiddleware([ROLES.CUSTOMER]), updateAppointment);
 
 
-router.delete("/customers/appointments/:id", authMiddleware, roleMiddleware([ROLES.CUSTOMER]), deleteAppointment);
+router.delete("appointments/:id", authMiddleware, roleMiddleware([ROLES.CUSTOMER]), deleteAppointment);
 
 router.get("/search", authMiddleware, roleMiddleware([ROLES.CUSTOMER]), searchBusinesses)
 

@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.post("/", authMiddleware, roleMiddleware([ROLES.BUSINESS_OWNER]),  createBusiness);
 
-router.get("/:gmbReferenceId", authMiddleware,roleMiddleware([ROLES.BUSINESS_OWNER]), getBusinessAppointments);
+router.get("/gmb", authMiddleware,roleMiddleware([ROLES.BUSINESS_OWNER]), getBusinessAppointments);
 
 
 
