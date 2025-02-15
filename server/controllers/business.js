@@ -36,13 +36,16 @@ exports.searchBusinesses = async (req, res) => {
       return res.status(400).json({ message: "Search query is required" });
     }
 
+    console.log(query)
     // Find businesses where the service field matches the search term (case-insensitive)
     const businesses = await Business.find({
-      service: { $regex: query, $options: "i" },
+      services: { $regex: query, $options: "i" } // Case-insensitive search
     });
+    
+    
 
     if (businesses.length === 0) {
-      return res.status(404).json({ message: "No businesses found" });
+       return res.status(404).json({ message: "No businesses found" });
     }
 
     res.json(businesses);
