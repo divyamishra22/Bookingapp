@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import "./Styles/View.css"
 
 const BusinessAppointments = () => {
   const [appointments, setAppointments] = useState([]);
@@ -12,7 +13,7 @@ const BusinessAppointments = () => {
     const fetchAppointments = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:5000/business/gmb", {
+        const response = await axios.get("https://bookingapp-server-henna.vercel.app/business/gmb", {
           headers: { Authorization: token },
         });
         console.log(response)
