@@ -70,19 +70,29 @@ const AppointmentsPage = () => {
   // Delete Appointment
   const deleteAppointment = async (appointmentId) => {
     try {
-      console.log(appointmentId)
-      const res = await axios.delete("https://bookingapp-server-henna.vercel.app/customer/delete", 
-        { appointmentId, date: updatedDate, time: updatedTime },
-        {headers: {
-          "Authorization": token, // Send JWT in header
-          "Content-Type": "application/json",
-        }});
-      console.log(res)
-      setAppointments(appointments.filter((appt) => appt._id !== appointmentId));
+      console.log("Deleting appointment ID:", appointmentId);
+  
+      const res = await axios.delete(
+        "https://bookingapp-server-henna.vercel.app/customer/delete", 
+        {
+          headers: {
+            Authorization: token, 
+            "Content-Type": "application/json",
+          },
+          data: { appointmentId } 
+        }
+      );
+  
+      console.log("Delete response:", res.data);
+  
+      setAppointments((prevAppointments) =>
+        prevAppointments.filter((appt) => appt._id !== appointmentId)
+      );
     } catch (error) {
-      console.error("Error deleting appointment:", error);
+      console.error("Error deleting appointment:", error.response?.data || error.message);
     }
   };
+  
   
 
   return (
