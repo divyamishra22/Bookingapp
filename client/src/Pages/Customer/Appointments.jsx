@@ -41,9 +41,7 @@ const BookAppointment = () => {
         }
       );
 
-      console.log("Appointment Booked:", response.data);
-      alert("Appointment Confirmed!");
-      navigate("/"); // Redirect to home or confirmation page
+      console.log("Appointment Booked:", response.data);// Redirect to home or confirmation page
     } catch (error) {
       console.error("Error booking appointment:", error);
     } finally {
@@ -61,7 +59,7 @@ const BookAppointment = () => {
         <label>Select Time:</label>
         <input type="time" value={time} onChange={(e) => setTime(e.target.value)} required />
 
-        <button type="submit" disabled={isSubmitting}>
+        <button type="submit" disabled={isSubmitting} onClick={() => navigate(`/viewall`)}>
           {isSubmitting ? "Booking..." : "Confirm Appointment"}
         </button>
       </form>
