@@ -5,7 +5,7 @@ const connect = require("./config/db");
 const authRoutes = require("./routes/index")
 const businesRoutes = require("./routes/business")
 const customerRoutes = require("./routes/customer")
-
+const { Server } = require("socket.io");
 
 
 
@@ -13,6 +13,7 @@ dotenv.config();
 connect();
 
 const app = express();
+const PORT = 5000;
 app.use(express.json());
 app.use(cors({
     origin: "https://bookingapp-client.vercel.app", // Replace with your frontend URL
@@ -29,8 +30,26 @@ app.get("/", ()=>{
     console.log("Hi")
 })
 
+const io = new Server(4000, {
+    cors: {
+      origin: "*", // Allow frontend connection
+    },
+  });
 
-const PORT = 5000;
+  let connectedUsers = new Set();
+
+io.on("connection", (socket) => {
+  console.log("A user connected:", socket.id);
+  connectedUsers.add(socket.id);
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected:", socket.id);
+    connectedUsers.delete(socket.id);
+  });
+});
+  
+
+
 app.listen(5000, ()=>{
     console.log(`server running on ${PORT}`)
 })

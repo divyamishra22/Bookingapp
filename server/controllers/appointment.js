@@ -15,6 +15,7 @@ exports.createAppointment = async (req, res) => {
     });
 
     await appointment.save();
+    io.emit("slotBooked", { date, time });
     res.status(201).json({ message: "Appointment booked successfully", appointment });
   } catch (error) {
     res.status(500).json({ message: "Error booking appointment", error });
