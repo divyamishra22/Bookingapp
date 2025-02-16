@@ -41,7 +41,7 @@ const Register = () => {
             <option value="customer">Customer</option>
             <option value="owner">Business Owner</option>
           </select>
-          <button type="submit">Register</button>
+          <button type="submit" onSubmit={handleSubmit}>Register</button>
         </form>
       </div>
     </div>
