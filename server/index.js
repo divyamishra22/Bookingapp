@@ -15,7 +15,7 @@ connect();
 const app = express();
 app.use(express.json());
 app.use(cors({
-    origin: "http://localhost:3000", // Replace with your frontend URL
+    origin: "https://bookingapp-client.vercel.app", // Replace with your frontend URL
     methods: "GET,POST,PUT,DELETE",
     allowedHeaders: "Content-Type,Authorization",
 }));
