@@ -5,6 +5,7 @@ const connect = require("./config/db");
 const authRoutes = require("./routes/index");
 const businessRoutes = require("./routes/business");
 const customerRoutes = require("./routes/customer");
+const path = require("path");
 
 
 
@@ -16,7 +17,7 @@ const PORT = 5000;
 
 
 app.use(cors({
-    origin: "https://bookingapp-client.vercel.app",
+    origin: "https://bookingapp-final.onrender.com",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
@@ -33,6 +34,12 @@ app.use("/customer", customerRoutes);
 
 app.get("/", (req, res) => {
     res.send("API is working!");
+});
+
+app.use(express.static(path.join(__dirname, "client/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build", "index.html"));
 });
 
 
