@@ -51,7 +51,7 @@ console.log(services)
 
     try {
       const response = await axios.post(
-        "https://bookingapp-servercheck.vercel.app/customer/appointments",
+        "https://bookingapp-server-jm2z.onrender.com/customer/appointments",
         appointmentData,
         {
           headers: {

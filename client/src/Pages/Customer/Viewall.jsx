@@ -26,7 +26,7 @@ const AppointmentsPage = () => {
   // Fetch Appointments
   const fetchAppointments = useCallback(async () => {
     try {
-      const response = await axios.get("https://bookingapp-servercheck.vercel.app/customer/appointment", {
+      const response = await axios.get("https://bookingapp-server-jm2z.onrender.com/customer/appointment", {
         headers: {
           "Authorization": token, // Send JWT in header
           "Content-Type": "application/json",
@@ -61,7 +61,7 @@ const AppointmentsPage = () => {
   const updateAppointment = async (appointmentId) => {
     try {
       const res = await axios.put(
-        "https://bookingapp-servercheck.vercel.app/customer/update",
+        "https://bookingapp-server-jm2z.onrender.com/customer/update",
         { appointmentId, date: updatedDate, time: updatedTime }, // Passing ID in body
        { headers: {
           "Authorization": token, // Send JWT in header
@@ -83,7 +83,7 @@ const AppointmentsPage = () => {
       console.log("Deleting appointment ID:", appointmentId);
   
       const res = await axios.delete(
-        "https://bookingapp-servercheck.vercel.app/customer/delete", 
+        "https://bookingapp-server-jm2z.onrender.com/customer/delete", 
         {
           headers: {
             Authorization: token, 
