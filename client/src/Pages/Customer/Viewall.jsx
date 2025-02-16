@@ -38,7 +38,7 @@ const AppointmentsPage = () => {
     } catch (error) {
       console.error("Error fetching appointments:", error);
     }
-  }, [token]);
+  }, [token, ]);
 
   useEffect(() => {
     fetchAppointments();
@@ -47,12 +47,12 @@ const AppointmentsPage = () => {
   // Update Appointment
   const updateAppointment = async (appointmentId) => {
     try {
-      await axios.put(
+      const res = await axios.put(
         "https://bookingapp-server-henna.vercel.app/customer/appointments",
         { appointmentId, date: updatedDate, time: updatedTime }, // Passing ID in body
         { headers: { Authorization: token } }
       );
-  
+     console.log(res)
       setEditMode(null); // Exit edit mode after update
       fetchAppointments();
     } catch (error) {
@@ -65,9 +65,11 @@ const AppointmentsPage = () => {
   const deleteAppointment = async (appointmentId) => {
     try {
       console.log(appointmentId)
-      const res = await axios.delete("https://bookingapp-server-henna.vercel.app/customer/appointments", {
+      const res = await axios.delete("https://bookingapp-server-henna.vercel.app/customer/appointments", 
+        { appointmentId, date: updatedDate, time: updatedTime },
+      {
         headers: { Authorization: token },
-        data: { appointmentId }, // Pass appointment ID in the request body
+        
       });
       console.log(res)
       setAppointments(appointments.filter((appt) => appt._id !== appointmentId));
