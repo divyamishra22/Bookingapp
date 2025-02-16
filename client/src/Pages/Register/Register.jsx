@@ -1,5 +1,5 @@
 import { useState } from "react";
-//import axios from "axios";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Register.css"; // Import the CSS file
 
@@ -19,11 +19,14 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     try {
+      await axios.post("https://bookingapp-server-henna.vercel.app/auth/register", formData);
+  
       alert("Registration successful!");
       navigate("/login");
     } catch (error) {
-      alert(error.response.data.message || "Registration failed");
+      alert(error.response?.data?.message || "Registration failed");
     }
   };
 
