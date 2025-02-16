@@ -8,6 +8,29 @@
     border-radius: 10px;
     text-align: center;
   }
+
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logout-button {
+    padding: 10px 15px;
+    font-size: 1rem;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .logout-button:hover {
+    background-color: #c9302c;
+  }
+  
   
   /* Heading */
   .appointments-container h1 {
