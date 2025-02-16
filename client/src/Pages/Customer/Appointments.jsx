@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "./Styles/Appointments.css";
+import { io } from "socket.io-client";
+const socket = io("https://bookingapp-server-henna.vercel.app");
 
 
 const BookAppointment = () => {
@@ -11,7 +13,7 @@ const BookAppointment = () => {
   const [date, setDate] = useState(""); // Selected date
   const [time, setTime] = useState(""); // Selected time
   const [isSubmitting, setIsSubmitting] = useState(false);
- 
+  const [unavailableSlots, setUnavailableSlots] = useState([]);
 
   const services= location.state?.service || "";
   const availability = location.state?.availibility || [];
@@ -23,6 +25,16 @@ console.log(services)
   // Get available slots for the selected date
   const availableSlots = availability.find((item) => item.date === date)?.slots || [];
   console.log(availableSlots)
+
+  useEffect(() => {
+    socket.on("slotBooked", ({ date, time }) => {
+      setUnavailableSlots((prev) => [...prev, { date, time }]);
+    });
+
+    return () => {
+      socket.off("slotBooked");
+    };
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -78,7 +90,7 @@ console.log(services)
         </select>
 
         {/* Select Available Time (Only if a date is selected) */}
-        <label>Select Time:</label>
+        {/* <label>Select Time:</label>
         <select value={time} onChange={(e) => setTime(e.target.value)} required disabled={!date}>
           <option value="">Select a Time</option>
           {availableSlots.map((timeOption, index) => (
@@ -86,7 +98,14 @@ console.log(services)
               {timeOption}
             </option>
           ))}
-        </select>
+        </select> */}
+
+<label>Select Time:</label>
+        <input type="time" value={time} onChange={(e) => setTime(e.target.value)} required />
+
+        {unavailableSlots.some((slot) => slot.date === date && slot.time === time) && (
+          <p style={{ color: "red" }}>This slot is already booked. Please choose another.</p>
+        )}
 
         <button type="submit" disabled={isSubmitting || !time}>
           {isSubmitting ? "Booking..." : "Confirm Appointment"}
