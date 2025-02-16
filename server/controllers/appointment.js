@@ -34,8 +34,8 @@ exports.getAppointments = async (req, res) => {
 
 exports.updateAppointment = async (req, res) => {
   try {
-    const { date, time } = req.body;
-    const appointment = await Appointment.findById(req.params.id);
+    const { date, time, appointmentId } = req.body; // Extract ID from request body } = req.body;
+    const appointment = await Appointment.findById(appointmentId);
 
     if (!appointment) return res.status(404).json({ message: "Appointment not found" });
     if (appointment.user.toString() !== req.user.id) return res.status(403).json({ message: "Not authorized" });
@@ -53,10 +53,20 @@ exports.updateAppointment = async (req, res) => {
 
 exports.deleteAppointment = async (req, res) => {
   try {
-    const appointment = await Appointment.findById(req.params.id);
-    if (!appointment) return res.status(404).json({ message: "Appointment not found" });
+    const { appointmentId } = req.body; // Extract ID from request body
 
-    if (appointment.user.toString() !== req.user.id) return res.status(403).json({ message: "Not authorized" });
+    if (!appointmentId) {
+      return res.status(400).json({ message: "Appointment ID is required" });
+    }
+
+    const appointment = await Appointment.findById(appointmentId);
+    if (!appointment) {
+      return res.status(404).json({ message: "Appointment not found" });
+    }
+
+    if (appointment.user.toString() !== req.user.id) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
 
     await appointment.deleteOne();
     res.status(200).json({ message: "Appointment deleted successfully" });
@@ -64,3 +74,4 @@ exports.deleteAppointment = async (req, res) => {
     res.status(500).json({ message: "Error deleting appointment", error });
   }
 };
+
