@@ -1,4 +1,5 @@
 const Appointment = require("../models/appointment");
+const { getIo } = require("../socket"); 
 
 
 exports.createAppointment = async (req, res) => {
@@ -15,6 +16,9 @@ exports.createAppointment = async (req, res) => {
     });
 
     await appointment.save();
+
+    const io = getIo();
+    io.emit("appointmentCreated", { date, time });
     
     res.status(201).json({ message: "Appointment booked successfully", appointment });
   } catch (error) {
