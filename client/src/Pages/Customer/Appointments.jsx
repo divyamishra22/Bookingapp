@@ -7,14 +7,17 @@ const BookAppointment = () => {
   const { gmbReferenceId } = useParams(); // Get gmbReferenceId from URL
   const navigate = useNavigate();
   const location = useLocation();
-  const [date, setDate] = useState("");
-  const [selectedTime, setSelectedTime] = useState("");
+  const [date, setDate] = useState(""); // Selected date
+  const [time, setTime] = useState(""); // Selected time
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const services = location.state?.service || "";
   const availability = location.state?.availability || [];
 
-  // Get available slots based on selected date
+  // Extract available dates from availability array
+  const availableDates = availability.map((item) => item.date);
+
+  // Get available slots for the selected date
   const availableSlots = availability.find((item) => item.date === date)?.slots || [];
 
   const handleSubmit = async (e) => {
@@ -22,13 +25,13 @@ const BookAppointment = () => {
     setIsSubmitting(true);
 
     const token = localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem("user")); // Parse stored user object
+    const user = JSON.parse(localStorage.getItem("user")); // Parse user object
 
     const appointmentData = {
       user: user._id,
       service: services,
       date,
-      time: selectedTime,
+      time,
       status: "pending",
       gmbReferenceId,
     };
@@ -46,7 +49,7 @@ const BookAppointment = () => {
       );
 
       console.log("Appointment Booked:", response.data);
-      navigate(`/viewall`); // Redirect after booking
+      navigate(`/viewall`);
     } catch (error) {
       console.error("Error booking appointment:", error);
     } finally {
@@ -58,29 +61,30 @@ const BookAppointment = () => {
     <div className="appointment-container">
       <h1>Book Your Appointment</h1>
       <form onSubmit={handleSubmit}>
+        
+        {/* Select Available Date */}
         <label>Select Date:</label>
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          required
-        />
+        <select value={date} onChange={(e) => setDate(e.target.value)} required>
+          <option value="">Select a Date</option>
+          {availableDates.map((dateOption, index) => (
+            <option key={index} value={dateOption}>
+              {dateOption}
+            </option>
+          ))}
+        </select>
 
+        {/* Select Available Time (Only if a date is selected) */}
         <label>Select Time:</label>
-        {availableSlots.length > 0 ? (
-          <select value={selectedTime} onChange={(e) => setSelectedTime(e.target.value)} required>
-            <option value="">Select a time</option>
-            {availableSlots.map((slot, index) => (
-              <option key={index} value={slot}>
-                {slot}
-              </option>
-            ))}
-          </select>
-        ) : (
-          <p>No available slots for the selected date.</p>
-        )}
+        <select value={time} onChange={(e) => setTime(e.target.value)} required disabled={!date}>
+          <option value="">Select a Time</option>
+          {availableSlots.map((timeOption, index) => (
+            <option key={index} value={timeOption}>
+              {timeOption}
+            </option>
+          ))}
+        </select>
 
-        <button type="submit" disabled={isSubmitting || !selectedTime}>
+        <button type="submit" disabled={isSubmitting || !time}>
           {isSubmitting ? "Booking..." : "Confirm Appointment"}
         </button>
       </form>
