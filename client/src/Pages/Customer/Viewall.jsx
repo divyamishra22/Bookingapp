@@ -48,7 +48,7 @@ const AppointmentsPage = () => {
   const updateAppointment = async (appointmentId) => {
     try {
       const res = await axios.put(
-        "https://bookingapp-server-henna.vercel.app/customer/appointments",
+        "https://bookingapp-server-henna.vercel.app/customer/update",
         { appointmentId, date: updatedDate, time: updatedTime }, // Passing ID in body
         { headers: { Authorization: token } }
       );
@@ -65,7 +65,7 @@ const AppointmentsPage = () => {
   const deleteAppointment = async (appointmentId) => {
     try {
       console.log(appointmentId)
-      const res = await axios.delete("https://bookingapp-server-henna.vercel.app/customer/appointments", 
+      const res = await axios.delete("https://bookingapp-server-henna.vercel.app/customer/delete", 
         { appointmentId, date: updatedDate, time: updatedTime },
       {
         headers: { Authorization: token },
