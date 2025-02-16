@@ -21,7 +21,7 @@ const BusinessAppointments = () => {
 
     const fetchAppointments = useCallback(async () => {
       try {
-        const response = await axios.get("https://bookingapp-server-henna.vercel.app/business/gmb", {
+        const response = await axios.get("https://bookingapp-servercheck.vercel.app/business/gmb", {
           headers: {
             "Authorization": token, // Send JWT in header
             "Content-Type": "application/json",

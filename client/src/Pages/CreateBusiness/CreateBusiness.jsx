@@ -92,7 +92,7 @@ const CreateBusiness = () => {
 
     try {
       const response = await axios.post(
-        "https://bookingapp-server-henna.vercel.app/business",
+        "https://bookingapp-servercheck.vercel.app/business",
         business,
         {
           headers: {
