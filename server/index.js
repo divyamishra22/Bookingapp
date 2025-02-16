@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(cors({
     origin: "https://bookingapp-client.vercel.app", // Replace with your frontend URL
     methods: "GET,POST,PUT,DELETE",
-    allowedHeaders: "Content-Type,Authorization",
+    
 }));
 
 app.use("/auth", authRoutes);
