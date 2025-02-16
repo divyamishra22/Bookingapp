@@ -2,17 +2,20 @@ import React, { useState , useEffect} from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "./Styles/Appointments.css";
-import { io } from "socket.io-client";
+import io from "socket.io-client";
+
+const socket = io("http://localhost:5000");
 
 
 
 const BookAppointment = () => {
   const { gmbReferenceId } = useParams(); // Get gmbReferenceId from URL
-  const navigate = useNavigate();
+  
   const location = useLocation();
   const [date, setDate] = useState(""); // Selected date
   const [time, setTime] = useState(""); // Selected time
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [bookedSlots, setBookedSlots] = useState({});
 
 
   const services= location.state?.service || "";
@@ -27,6 +30,22 @@ console.log(services)
   console.log(availableSlots)
 
   
+
+
+  useEffect(() => {
+    socket.on("appointmentCreated", ({ date, time }) => {
+      console.log("New appointment:", date, time);
+
+      setBookedSlots((prev) => ({
+        ...prev,
+        [date]: prev[date] ? [...prev[date], time] : [time], // Store booked slots for that date
+      }));
+    });
+
+    return () => {
+      socket.off("appointmentCreated");
+    };
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,13 +76,18 @@ console.log(services)
       );
 
       console.log("Appointment Booked:", response.data);
-      navigate(`/viewall`);
+     
     } catch (error) {
       console.error("Error booking appointment:", error);
     } finally {
       setIsSubmitting(false);
     }
   };
+
+
+  const filteredSlots = bookedSlots[date]
+    ? availableSlots.filter((slot) => !bookedSlots[date].includes(slot))
+    : availableSlots;
 
   return (
     <div className="appointment-container">
@@ -81,23 +105,18 @@ console.log(services)
           ))}
         </select>
 
-        {/* Select Available Time (Only if a date is selected) */}
+        
         <label>Select Time:</label>
-        <select value={time} onChange={(e) => setTime(e.target.value)} required disabled={!date}>
-          <option value="">Select a Time</option>
-          {availableSlots.map((timeOption, index) => (
-            <option key={index} value={timeOption}>
-              {timeOption}
-            </option>
-          ))}
-        </select>
+<select value={time} onChange={(e) => setTime(e.target.value)} required disabled={!date}>
+  <option value="">Select a Time</option>
+  {(filteredSlots.length > 0 ? filteredSlots : availableSlots).map((timeOption, index) => (
+    <option key={index} value={timeOption}>
+      {timeOption}
+    </option>
+  ))}
+</select>
 
-{/* <label>Select Time:</label>
-        <input type="time" value={time} onChange={(e) => setTime(e.target.value)} required />
 
-        {unavailableSlots.some((slot) => slot.date === date && slot.time === time) && (
-          <p style={{ color: "red" }}>This slot is already booked. Please choose another.</p>
-        )} */}
 
         <button type="submit" disabled={isSubmitting || !time}>
           {isSubmitting ? "Booking..." : "Confirm Appointment"}
