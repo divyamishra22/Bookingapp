@@ -5,7 +5,6 @@ import "./Styles/Viewall.css";
 import { useNavigate } from "react-router-dom"; // Import the CSS file
 
 const AppointmentsPage = () => {
-  const [appointments, setAppointments] = useState([]);
   const [editMode, setEditMode] = useState(null); // Stores the ID of the appointment being edited
   const [updatedDate, setUpdatedDate] = useState("");
   const [updatedTime, setUpdatedTime] = useState("");
@@ -14,14 +13,13 @@ const AppointmentsPage = () => {
   const [activeTab, setActiveTab] = useState("upcoming"); // Tracks which tab is active
   const token = localStorage.getItem("token");
 
-
   const navigate = useNavigate();
 
-   const handleLogout = () => {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      navigate("/login");
-    };
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
 
   // Fetch Appointments
   const fetchAppointments = useCallback(async () => {
@@ -32,8 +30,6 @@ const AppointmentsPage = () => {
           "Content-Type": "application/json",
         },
       });
-
-      setAppointments(response.data);
 
       const today = moment().startOf("day");
 
@@ -51,7 +47,7 @@ const AppointmentsPage = () => {
     } catch (error) {
       console.error("Error fetching appointments:", error);
     }
-  }, [token, ]);
+  }, [token]);
 
   useEffect(() => {
     fetchAppointments();
@@ -63,57 +59,53 @@ const AppointmentsPage = () => {
       const res = await axios.put(
         "https://bookingapp-server-jm2z.onrender.com/customer/update",
         { appointmentId, date: updatedDate, time: updatedTime }, // Passing ID in body
-       { headers: {
-          "Authorization": token, // Send JWT in header
-          "Content-Type": "application/json",
-        }}
+        {
+          headers: {
+            "Authorization": token, // Send JWT in header
+            "Content-Type": "application/json",
+          },
+        }
       );
-     console.log(res)
+      console.log(res);
       setEditMode(null); // Exit edit mode after update
       fetchAppointments();
     } catch (error) {
       console.error("Error updating appointment:", error);
     }
   };
-  
 
   // Delete Appointment
   const deleteAppointment = async (appointmentId) => {
     try {
       console.log("Deleting appointment ID:", appointmentId);
-  
+
       const res = await axios.delete(
-        "https://bookingapp-server-jm2z.onrender.com/customer/delete", 
+        "https://bookingapp-server-jm2z.onrender.com/customer/delete",
         {
           headers: {
-            Authorization: token, 
+            Authorization: token,
             "Content-Type": "application/json",
           },
-          data: { appointmentId } 
+          data: { appointmentId },
         }
       );
-  
+
       console.log("Delete response:", res.data);
-  
-      setAppointments((prevAppointments) =>
-        prevAppointments.filter((appt) => appt._id !== appointmentId)
-      );
+      fetchAppointments(); // Refresh the list after deleting
     } catch (error) {
       console.error("Error deleting appointment:", error.response?.data || error.message);
     }
   };
-  
-  
 
   return (
     <div className="appointments-container">
-      <h1>Your Appointments</h1>
       <div className="header">
         <h1>Your Appointments</h1>
         <button className="logout-button" onClick={handleLogout}>
           Logout
         </button>
       </div>
+
       {/* Navigation Tabs */}
       <div className="navbar">
         <button
@@ -158,19 +150,13 @@ const AppointmentsPage = () => {
                         onChange={(e) => setUpdatedTime(e.target.value)}
                         required
                       />
-                      <button onClick={() => updateAppointment(appointment._id)}>
-                        Save
-                      </button>
+                      <button onClick={() => updateAppointment(appointment._id)}>Save</button>
                       <button onClick={() => setEditMode(null)}>Cancel</button>
                     </div>
                   ) : (
                     <div>
-                      <button onClick={() => setEditMode(appointment._id)}>
-                        Update
-                      </button>
-                      <button onClick={() => deleteAppointment(appointment._id)}>
-                        Delete
-                      </button>
+                      <button onClick={() => setEditMode(appointment._id)}>Update</button>
+                      <button onClick={() => deleteAppointment(appointment._id)}>Delete</button>
                     </div>
                   )}
                 </li>
