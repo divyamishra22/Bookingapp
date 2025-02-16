@@ -8,6 +8,7 @@ import  AuthProvider  from "./context.jsx";
 import BookAppointment from "./Pages/Customer/Appointments.jsx"
 import Appointment from "./Pages/Customer/Viewall.jsx"
 import Viewapp from "./Pages/CreateBusiness/View.jsx"
+import Home from "./Pages/Logout/Logout.jsx";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/book-appointment/:gmbReferenceId" element={<BookAppointment />} />
         <Route path="/viewall" element={< Appointment/>} />
         <Route path="/viewappointements" element={< Viewapp/>} />
+        <Route path="/lastpage" element={< Home/>} />
       </Routes>
       </AuthProvider>
     </Router>

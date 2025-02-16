@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./Styles/CreateBusiness.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const CreateBusiness = () => {
   const [business, setBusiness] = useState({
@@ -16,6 +17,7 @@ const CreateBusiness = () => {
   const [newSlots, setNewSlots] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const validateForm = () => {
     let errors = {};
@@ -96,6 +98,7 @@ const CreateBusiness = () => {
         }
       );
       console.log("Business Created:", response.data);
+      navigate("/lastpage");
     } catch (error) {
       console.log("Failed to create business." + error.stack);
     } finally {

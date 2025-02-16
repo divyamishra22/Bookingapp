@@ -3,6 +3,7 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "./Styles/Appointments.css";
 
+
 const BookAppointment = () => {
   const { gmbReferenceId } = useParams(); // Get gmbReferenceId from URL
   const navigate = useNavigate();
@@ -10,6 +11,7 @@ const BookAppointment = () => {
   const [date, setDate] = useState(""); // Selected date
   const [time, setTime] = useState(""); // Selected time
   const [isSubmitting, setIsSubmitting] = useState(false);
+ 
 
   const services= location.state?.service || "";
   const availability = location.state?.availibility || [];

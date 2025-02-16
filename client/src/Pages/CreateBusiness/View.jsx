@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import moment from "moment";
 import "./Styles/View.css";
+import { useNavigate } from "react-router-dom";
 
 const BusinessAppointments = () => {
   const [appointments, setAppointments] = useState([]);
@@ -9,6 +10,14 @@ const BusinessAppointments = () => {
     const [pastAppointments, setPastAppointments] = useState([]);
     const [activeTab, setActiveTab] = useState("upcoming"); // Tracks which tab is active
     const token = localStorage.getItem("token");
+    const navigate = useNavigate();
+
+   const handleLogout = () => {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      navigate("/login");
+    };
+  
 
     const fetchAppointments = useCallback(async () => {
       try {
@@ -58,6 +67,12 @@ const BusinessAppointments = () => {
   return (
     <div className="appointments-container">
     <h1>Your Appointments</h1>
+    <div className="header">
+        <h1>Your Appointments</h1>
+        <button className="logout-button" onClick={handleLogout}>
+          Logout
+        </button>
+      </div>
 
     {/* Navigation Tabs */}
     <div className="navbar">
