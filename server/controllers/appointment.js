@@ -59,7 +59,7 @@ exports.deleteAppointment = async (req, res) => {
       return res.status(400).json({ message: "Appointment ID is required" });
     }
 
-    const appointment = await Appointment.findById({ _id: appointmentId });
+    const appointment = await Appointment.findOne({ _id: appointmentId });
     if (!appointment) {
       return res.status(404).json({ message: "Appointment not found" });
     }
