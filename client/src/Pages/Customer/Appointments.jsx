@@ -2,9 +2,7 @@ import React, { useState , useEffect} from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "./Styles/Appointments.css";
-// import io from "socket.io-client";
 
-// const socket = io("http://localhost:5000");
 
 
 
@@ -33,36 +31,23 @@ console.log(services)
   
 
 
-  // useEffect(() => {
-  //   socket.on("appointmentCreated", ({ date, time }) => {
-  //     console.log("New appointment:", date, time);
-
-  //     setBookedSlots((prev) => ({
-  //       ...prev,
-  //       [date]: prev[date] ? [...prev[date], time] : [time], // Store booked slots for that date
-  //     }));
-  //   });
-
-  //   return () => {
-  //     socket.off("appointmentCreated");
-  //   };
-  // }, []);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-
+   console.log("Hi")
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user")); // Parse user object
 
     const appointmentData = {
-      user: user._id,
+      user: user.id,
       service: services,
       date,
       time,
       status: "pending",
       gmbReferenceId,
     };
+
+    console.log(appointmentData)
 
     try {
       const response = await axios.post(
@@ -80,7 +65,9 @@ console.log(services)
       navigate("/viewall")
      
     } catch (error) {
-      console.error("Error booking appointment:", error);
+      console.error("Error booking appointment:", error.response?.data || error.message);
+      const errorMessage = error.response?.data?.message || "Something went wrong. Please try again.";
+      alert(errorMessage);
     } finally {
       setIsSubmitting(false);
     }

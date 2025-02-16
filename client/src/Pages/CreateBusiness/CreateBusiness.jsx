@@ -81,7 +81,11 @@ const CreateBusiness = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    console.log("Hi")
+    if (!validateForm()) 
+      {
+        alert("Validation not done");
+        return; }
 
     setIsSubmitting(true);
     const token = localStorage.getItem("token");
