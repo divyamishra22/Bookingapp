@@ -91,6 +91,8 @@ console.log(services)
     ? availableSlots.filter((slot) => !bookedSlots[date].includes(slot))
     : availableSlots;
 
+    console.log(filteredSlots)
+
   return (
     <div className="appointment-container">
       <h1>Book Your Appointment</h1>
