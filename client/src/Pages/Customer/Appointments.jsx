@@ -3,7 +3,9 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "./Styles/Appointments.css";
 import { io } from "socket.io-client";
-const socket = io("https://bookingapp-server-henna.vercel.app");
+const socket = io("https://bookingapp-server-henna.vercel.app", {
+  transports: ["websocket"], // Ensure WebSocket connection
+});
 
 
 const BookAppointment = () => {
@@ -27,15 +29,19 @@ console.log(services)
   console.log(availableSlots)
 
   useEffect(() => {
-    socket.on("slotBooked", ({ date, time }) => {
-      setUnavailableSlots((prev) => [...prev, { date, time }]);
-      console.log(unavailableSlots)
+    socket.on("connect", () => {
+      console.log("Connected to WebSocket server:", socket.id);
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Disconnected from WebSocket server.");
     });
 
     return () => {
-      socket.off("slotBooked");
+      socket.off("connect");
+      socket.off("disconnect");
     };
-  }, [unavailableSlots]);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -91,7 +97,7 @@ console.log(services)
         </select>
 
         {/* Select Available Time (Only if a date is selected) */}
-        {/* <label>Select Time:</label>
+        <label>Select Time:</label>
         <select value={time} onChange={(e) => setTime(e.target.value)} required disabled={!date}>
           <option value="">Select a Time</option>
           {availableSlots.map((timeOption, index) => (
@@ -99,14 +105,14 @@ console.log(services)
               {timeOption}
             </option>
           ))}
-        </select> */}
+        </select>
 
-<label>Select Time:</label>
+{/* <label>Select Time:</label>
         <input type="time" value={time} onChange={(e) => setTime(e.target.value)} required />
 
         {unavailableSlots.some((slot) => slot.date === date && slot.time === time) && (
           <p style={{ color: "red" }}>This slot is already booked. Please choose another.</p>
-        )}
+        )} */}
 
         <button type="submit" disabled={isSubmitting || !time}>
           {isSubmitting ? "Booking..." : "Confirm Appointment"}
