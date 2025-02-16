@@ -21,14 +21,14 @@ const BookAppointment = () => {
 
   const services= location.state?.service || "";
   const availability = location.state?.availibility || [];
-console.log(services)
-  // Extract available dates from availability array
+// console.log(services)
+//   // Extract available dates from availability array
   const availableDates = availability.map((item) => item.date);
-  console.log(availableDates)
+//   console.log(availableDates)
 
-  // Get available slots for the selected date
-  const availableSlots = availability.find((item) => item.date === date)?.slots || [];
-  console.log(availableSlots)
+//   // Get available slots for the selected date
+   const availableSlots = availability.find((item) => item.date === date)?.slots || [];
+//   console.log(availableSlots)
 
   
 
