@@ -31,11 +31,11 @@ const CreateBusiness = () => {
   };
 
   const validateDate = (date) => {
-    return /^\d{4}-\d{2}-\d{2}$/.test(date); // Checks format YYYY-MM-DD
+    return /^\d{4}-\d{2}-\d{2}$/.test(date); // Ensures YYYY-MM-DD format
   };
 
   const validateTimeSlots = (slots) => {
-    return slots.split(",").every((slot) => /^\d{2}:\d{2}(AM|PM)$/.test(slot.trim()));
+    return slots.split(",").every((slot) => /^[0-1]\d:[0-5]\d(AM|PM)$/.test(slot.trim()));
   };
 
   const handleChange = (e) => {
@@ -50,7 +50,7 @@ const CreateBusiness = () => {
     }
 
     if (!newSlots || !validateTimeSlots(newSlots)) {
-      tempErrors.newSlots = "Each time must be in hh:mmAM/PM format (e.g., 10:00AM, 03:30PM)";
+      tempErrors.newSlots = "Time must be in hh:mmAM/PM format (e.g., 10:00AM, 03:30PM)";
     }
 
     if (Object.keys(tempErrors).length > 0) {
