@@ -4,13 +4,9 @@ const Appointment = require("../models/appointment")
 
 exports.createBusiness = async (req, res) => {
   try {
-    const { name, location, services, availability, contact } = req.body;
+    const { name, location, services, availability, contact,gmbReferenceId } = req.body;
     const owner = req.user.id; 
-
-    
-    const gmbReferenceId = `gmb-${Date.now()}`; // Simulating a real ID
-
-    
+console.log("hi")
     const business = new Business({
       name,
       owner,
@@ -21,6 +17,8 @@ exports.createBusiness = async (req, res) => {
       gmbReferenceId, 
     });
 
+    console.log(business)
+  
     await business.save();
 
     res.status(201).json({ message: "Business created successfully!", business });
@@ -59,20 +57,36 @@ exports.searchBusinesses = async (req, res) => {
 
 exports.getBusinessAppointments = async (req, res) => {
   try {
-    const { gmbReferenceId } = req.body;
+    const userId = req.user.id; // Extract user ID from token
+    console.log(userId)
+    const gmb = await Business.find({ owner: userId });
 
-    if (!gmbReferenceId) {
-      return res.status(400).json({ message: "GMB reference ID is required" });
-    }
+if (!gmb.length) {
+  return res.status(404).json({ message: "No businesses found for this owner" });
+}
 
-    // Find all appointments linked to this business
-    const appointments = await Appointment.find({ gmbReferenceId });
+// Extract all gmbReferenceIds from businesses
+const gmbReferenceIds = gmb.map((g) => g.gmbReferenceId);
 
-    if (appointments.length === 0) {
-      return res.status(404).json({ message: "No appointments found for this business" });
-    }
+// Fetch appointments for all businesses
+const appo = await Appointment.find({ gmbReferenceId: { $in: gmbReferenceIds } });
 
-    res.status(200).json({ appointments });
+res.json(appo);
+
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch appointments" });
+  }
+}
+;
+
+
+
+
+exports.getBusiness = async (req, res) => {
+  try {
+    console.log("called")
+    const businesses = await Business.find().limit(2); // Fetch first 4 businesses
+    res.status(200).json(businesses);
   } catch (error) {
     console.error("Error fetching business appointments:", error);
     res.status(500).json({ message: "Internal server error" });
