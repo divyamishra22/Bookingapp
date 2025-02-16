@@ -30,10 +30,6 @@ const CreateBusiness = () => {
     return Object.keys(errors).length === 0;
   };
 
-  const validateDate = (date) => {
-    return /^\d{4}-\d{2}-\d{2}$/.test(date); // Ensures YYYY-MM-DD format
-  };
-
   const validateTimeSlots = (slots) => {
     return slots.split(",").every((slot) => /^[0-1]\d:[0-5]\d(AM|PM)$/.test(slot.trim()));
   };
@@ -45,8 +41,8 @@ const CreateBusiness = () => {
   const addAvailability = () => {
     let tempErrors = {};
 
-    if (!newDate || !validateDate(newDate)) {
-      tempErrors.newDate = "Date must be in YYYY-MM-DD format (e.g., 2025-02-21)";
+    if (!newDate) {
+      tempErrors.newDate = "Please select a date from the calendar.";
     }
 
     if (!newSlots || !validateTimeSlots(newSlots)) {
@@ -168,9 +164,9 @@ const CreateBusiness = () => {
 
         <h3>Availability</h3>
         <div className="availability-section">
+          {/* Calendar View for Date Selection */}
           <input
-            type="text"
-            placeholder="Enter Date (YYYY-MM-DD)"
+            type="date"
             value={newDate}
             onChange={(e) => setNewDate(e.target.value)}
             required
