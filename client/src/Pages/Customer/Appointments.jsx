@@ -16,6 +16,7 @@ const BookAppointment = () => {
   const [time, setTime] = useState(""); // Selected time
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [bookedSlots, setBookedSlots] = useState({});
+  const navigate = useNavigate();
 
 
   const services= location.state?.service || "";
@@ -76,6 +77,7 @@ console.log(services)
       );
 
       console.log("Appointment Booked:", response.data);
+      navigate("/viewall")
      
     } catch (error) {
       console.error("Error booking appointment:", error);
