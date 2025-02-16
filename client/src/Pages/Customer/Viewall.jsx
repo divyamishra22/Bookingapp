@@ -64,11 +64,12 @@ const AppointmentsPage = () => {
   // Delete Appointment
   const deleteAppointment = async (appointmentId) => {
     try {
-      await axios.delete("https://bookingapp-server-henna.vercel.app/customer/appointments", {
+      console.log(appointmentId)
+      const res = await axios.delete("https://bookingapp-server-henna.vercel.app/customer/appointments", {
         headers: { Authorization: token },
         data: { appointmentId }, // Pass appointment ID in the request body
       });
-  
+      console.log(res)
       setAppointments(appointments.filter((appt) => appt._id !== appointmentId));
     } catch (error) {
       console.error("Error deleting appointment:", error);
