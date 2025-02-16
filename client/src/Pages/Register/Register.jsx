@@ -21,9 +21,8 @@ const Register = () => {
     e.preventDefault();
     
     try {
-      await axios.post("https://bookingapp-server-henna.vercel.app/auth/register", formData);
-  
-      alert("Registration successful!");
+     const res =  await axios.post("https://bookingapp-server-henna.vercel.app/auth/register", formData);
+     console.log(res)
       navigate("/login");
     } catch (error) {
       alert(error.response?.data?.message || "Registration failed");
