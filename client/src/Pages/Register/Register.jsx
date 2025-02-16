@@ -8,7 +8,7 @@ const Register = () => {
     name: "",
     email: "",
     password: "",
-    role: ""
+    role: "customer", // Default role to prevent empty value
   });
 
   const navigate = useNavigate();
@@ -21,8 +21,8 @@ const Register = () => {
     e.preventDefault();
     
     try {
-     const res =  await axios.post("https://bookingapp-server-henna.vercel.app/auth/register", formData);
-     console.log(res)
+      const res = await axios.post("https://bookingapp-server-henna.vercel.app/auth/register", formData);
+      console.log("Registration Success:", res.data);
       navigate("/login");
     } catch (error) {
       alert(error.response?.data?.message || "Registration failed");
@@ -37,11 +37,11 @@ const Register = () => {
           <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
           <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
           <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
-          <select name="role" value={formData.role} onChange={handleChange}>
+          <select name="role" value={formData.role} onChange={handleChange} required>
             <option value="customer">Customer</option>
             <option value="owner">Business Owner</option>
           </select>
-          <button type="submit" onSubmit={handleSubmit}>Register</button>
+          <button type="submit">Register</button> {/* Removed onSubmit from button */}
         </form>
       </div>
     </div>
