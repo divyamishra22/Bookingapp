@@ -11,7 +11,7 @@ const View = () => {
   useEffect(() => {
     const fetchBusinesses = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/customer/limit", {
+        const response = await axios.get("https://bookingapp-server-henna.vercel.app/customer/limit", {
           headers: {
             "Authorization": token, // Send JWT in header
             "Content-Type": "application/json",

@@ -55,7 +55,7 @@ const CreateBusiness = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/business",
+        "https://bookingapp-server-henna.vercel.app/business",
         business,
         {
           headers: {

@@ -12,7 +12,7 @@ const AuthProvider = ({ children }) => {
   const login = async ({ email, password }) => {
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/auth/login",
+        "https://bookingapp-server-henna.vercel.app/auth/login",
         { email, password }, // Sending destructured email & password
         { headers: { "Content-Type": "application/json" } }
       );

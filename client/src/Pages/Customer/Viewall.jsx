@@ -13,7 +13,7 @@ const AppointmentsPage = () => {
 
   const fetchAppointments = useCallback(async () => {
     try {
-      const response = await axios.get("http://localhost:5000/customer/appointment", {
+      const response = await axios.get("https://bookingapp-server-henna.vercel.app/customer/appointment", {
         headers: { Authorization: token },
       });
       setAppointments(response.data);
@@ -37,7 +37,7 @@ const AppointmentsPage = () => {
   const updateAppointment = async (appointmentId) => {
     try {
       await axios.put(
-        `http://localhost:5000/customer/appointments/${appointmentId}`,
+        `https://bookingapp-server-henna.vercel.app/customer/appointments/${appointmentId}`,
         { date: updatedDate, time: updatedTime }, // Only updating date and time
         { headers: { Authorization: token } }
       );
@@ -50,7 +50,7 @@ const AppointmentsPage = () => {
 
   const deleteAppointment = async (appointmentId) => {
     try {
-      await axios.delete(`http://localhost:5000/customer/appointments/${appointmentId}`, {
+      await axios.delete(`https://bookingapp-server-henna.vercel.app/customer/appointments/${appointmentId}`, {
         headers: { Authorization: token },
       });
       setAppointments(appointments.filter((appt) => appt._id !== appointmentId));

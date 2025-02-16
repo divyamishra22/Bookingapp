@@ -31,7 +31,7 @@ const BookAppointment = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/customer/appointments",
+        "https://bookingapp-server-henna.vercel.app/customer/appointments",
         appointmentData,
         {
           headers: {
