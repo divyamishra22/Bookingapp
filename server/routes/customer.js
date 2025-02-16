@@ -17,10 +17,10 @@ router.post("/appointments",authMiddleware, roleMiddleware([ROLES.CUSTOMER]),cre
 router.get("/appointment",authMiddleware,roleMiddleware([ROLES.CUSTOMER]),  getAppointments);
 
 
-router.put("appointments/:id",authMiddleware, roleMiddleware([ROLES.CUSTOMER]), updateAppointment);
+router.put("appointments",authMiddleware, roleMiddleware([ROLES.CUSTOMER]), updateAppointment);
 
 
-router.delete("appointment/:id", authMiddleware, roleMiddleware([ROLES.CUSTOMER]), deleteAppointment);
+router.delete("appointment", authMiddleware, roleMiddleware([ROLES.CUSTOMER]), deleteAppointment);
 
 router.get("/search", authMiddleware, roleMiddleware([ROLES.CUSTOMER]), searchBusinesses)
 router.get("/limit", authMiddleware,roleMiddleware([ROLES.CUSTOMER]), getBusiness);
