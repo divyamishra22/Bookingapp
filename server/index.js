@@ -32,7 +32,8 @@ app.get("/", ()=>{
 
 const io = new Server(4000, {
     cors: {
-      origin: "*", // Allow frontend connection
+        origin: "*",
+        methods: ["GET", "POST"],
     },
   });
 
