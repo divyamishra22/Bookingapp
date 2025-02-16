@@ -48,28 +48,33 @@ const AppointmentsPage = () => {
   const updateAppointment = async (appointmentId) => {
     try {
       await axios.put(
-        `https://bookingapp-server-henna.vercel.app/customer/appointments/${appointmentId}`,
-        { date: updatedDate, time: updatedTime }, // Only updating date and time
+        "https://bookingapp-server-henna.vercel.app/customer/appointments",
+        { appointmentId, date: updatedDate, time: updatedTime }, // Passing ID in body
         { headers: { Authorization: token } }
       );
+  
       setEditMode(null); // Exit edit mode after update
       fetchAppointments();
     } catch (error) {
       console.error("Error updating appointment:", error);
     }
   };
+  
 
   // Delete Appointment
   const deleteAppointment = async (appointmentId) => {
     try {
-      await axios.delete(`https://bookingapp-server-henna.vercel.app/customer/appointments/${appointmentId}`, {
+      await axios.delete("https://bookingapp-server-henna.vercel.app/customer/appointments", {
         headers: { Authorization: token },
+        data: { appointmentId }, // Pass appointment ID in the request body
       });
+  
       setAppointments(appointments.filter((appt) => appt._id !== appointmentId));
     } catch (error) {
       console.error("Error deleting appointment:", error);
     }
   };
+  
 
   return (
     <div className="appointments-container">
@@ -151,7 +156,6 @@ const AppointmentsPage = () => {
                   <p><strong>Service:</strong> {appointment.service}</p>
                   <p><strong>Date:</strong> {appointment.date}</p>
                   <p><strong>Time:</strong> {appointment.time}</p>
-                  <p><strong>Status:</strong> {appointment.status}</p>
                 </li>
               ))}
             </ul>
