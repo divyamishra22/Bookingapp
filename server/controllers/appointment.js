@@ -6,6 +6,16 @@ exports.createAppointment = async (req, res) => {
   try {
     const { service, date, time, gmbReferenceId } = req.body;
 
+    const existingAppointment = await Appointment.findOne({
+      gmbReferenceId,  // Ensures business uniqueness
+      date,
+      time,
+    });
+
+    if (existingAppointment) {
+      return res.status(400).json({ message: "Slot already booked! Please choose a different time." });
+    }
+
     const appointment = new Appointment({
       user: req.user.id, 
       service,
