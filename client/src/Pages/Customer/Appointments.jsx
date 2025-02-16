@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import "./Styles/Appointments.css"
 
 const BookAppointment = () => {
   const { gmbReferenceId } = useParams(); // Get gmbReferenceId from URL

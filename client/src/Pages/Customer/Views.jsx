@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "./Appointments.css";
+import "./Styles/Viwes.css";
 import { useNavigate } from "react-router-dom";
 
 const View = () => {

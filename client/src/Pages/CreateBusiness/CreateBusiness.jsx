@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./CreateBusiness.css";
+import "./Styles/CreateBusiness.css";
 import axios from "axios";
 
 const CreateBusiness = () => {
