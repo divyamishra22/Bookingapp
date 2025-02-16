@@ -37,7 +37,7 @@ const View = () => {
             <p><strong>Services:</strong> {business.services}</p>
             <p><strong>Contact:</strong> {business.contact}</p>
             <button className="book-button" onClick={() => navigate(`/book-appointment/${business.gmbReferenceId}`, {
-    state: { service: business.services }
+    state: { service: business.services, availibility: business.availibility }
   })}>Book Appointment</button>
           </div>
         ))}
