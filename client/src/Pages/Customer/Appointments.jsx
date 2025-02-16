@@ -51,7 +51,7 @@ console.log(services)
 
     try {
       const response = await axios.post(
-        "https://bookingapp-server-jm2z.onrender.com/customer/appointments",
+        "https://bookingapp-backend-opuz.onrender.com/customer/appointments",
         appointmentData,
         {
           headers: {

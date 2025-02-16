@@ -92,7 +92,7 @@ const CreateBusiness = () => {
 
     try {
       const response = await axios.post(
-        "https://bookingapp-server-jm2z.onrender.com/business",
+        "https://bookingapp-backend-opuz.onrender.com/business",
         business,
         {
           headers: {

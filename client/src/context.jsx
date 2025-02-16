@@ -12,7 +12,7 @@ const AuthProvider = ({ children }) => {
   const login = async ({ email, password }) => {
     try {
       const { data } = await axios.post(
-        "https://bookingapp-server-jm2z.onrender.com/auth/login",
+        "https://bookingapp-backend-opuz.onrender.com/auth/login",
         { email, password }, // Sending destructured email & password
         { headers: { "Content-Type": "application/json" } }
       );

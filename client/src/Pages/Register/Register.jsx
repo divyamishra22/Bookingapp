@@ -21,7 +21,7 @@ const Register = () => {
     e.preventDefault();
     
     try {
-      const res = await axios.post("https://bookingapp-server-jm2z.onrender.com/auth/register", formData);
+      const res = await axios.post("https://bookingapp-backend-opuz.onrender.com/auth/register", formData);
       console.log("Registration Success:", res.data);
       navigate("/login");
     } catch (error) {

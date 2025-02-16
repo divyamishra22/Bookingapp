@@ -19,7 +19,7 @@ const BusinessAppointments = () => {
 
     const fetchAppointments = useCallback(async () => {
         try {
-            const response = await axios.get("https://bookingapp-server-jm2z.onrender.com/business/gmb", {
+            const response = await axios.get("https://bookingapp-backend-opuz.onrender.com/business/gmb", {
                 headers: {
                     "Authorization": token, // Send JWT in header
                     "Content-Type": "application/json",

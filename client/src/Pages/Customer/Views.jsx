@@ -11,7 +11,7 @@ const View = () => {
   useEffect(() => {
     const fetchBusinesses = async () => {
       try {
-        const response = await axios.get("https://bookingapp-server-jm2z.onrender.com/customer/limit", {
+        const response = await axios.get("https://bookingapp-backend-opuz.onrender.com/customer/limit", {
           headers: {
             "Authorization": token, // Send JWT in header
             "Content-Type": "application/json",
