@@ -1,5 +1,4 @@
 const Appointment = require("../models/appointment");
-// const { getIo } = require("../socket"); 
 
 
 exports.createAppointment = async (req, res) => {
@@ -7,7 +6,7 @@ exports.createAppointment = async (req, res) => {
     const { service, date, time, gmbReferenceId } = req.body;
 
     const existingAppointment = await Appointment.findOne({
-      gmbReferenceId,  // Ensures business uniqueness
+      gmbReferenceId,  
       date,
       time,
     });
@@ -27,8 +26,7 @@ exports.createAppointment = async (req, res) => {
 
     await appointment.save();
 
-    // const io = getIo();
-    // io.emit("appointmentCreated", { date, time });
+    
     
     res.status(201).json({ message: "Appointment booked successfully", appointment });
   } catch (error) {
@@ -49,7 +47,7 @@ exports.getAppointments = async (req, res) => {
 
 exports.updateAppointment = async (req, res) => {
   try {
-    const { date, time, appointmentId } = req.body; // Extract ID from request body } = req.body;
+    const { date, time, appointmentId } = req.body; 
     const appointment = await Appointment.findById(appointmentId);
 
     if (!appointment) return res.status(404).json({ message: "Appointment not found" });
@@ -68,7 +66,7 @@ exports.updateAppointment = async (req, res) => {
 
 exports.deleteAppointment = async (req, res) => {
   try {
-    const { appointmentId } = req.body; // Extract ID from request body
+    const { appointmentId } = req.body; 
 
     if (!appointmentId) {
       return res.status(400).json({ message: "Appointment ID is required" });

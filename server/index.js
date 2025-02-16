@@ -5,7 +5,7 @@ const connect = require("./config/db");
 const authRoutes = require("./routes/index");
 const businessRoutes = require("./routes/business");
 const customerRoutes = require("./routes/customer");
-const { initializeSocket } = require("./socket");
+
 
 
 dotenv.config();
@@ -40,4 +40,4 @@ const server = app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
 
-initializeSocket(server);
+

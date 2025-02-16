@@ -85,7 +85,7 @@ res.json(appo);
 exports.getBusiness = async (req, res) => {
   try {
     console.log("called")
-    const businesses = await Business.find().limit(2); // Fetch first 4 businesses
+    const businesses = await Business.find().limit(4); // Fetch first 4 businesses
     res.status(200).json(businesses);
   } catch (error) {
     console.error("Error fetching business appointments:", error);
