@@ -39,15 +39,14 @@ const io = new Server(4000, {
 
   let connectedUsers = new Set();
 
-io.on("connection", (socket) => {
-  console.log("A user connected:", socket.id);
-  connectedUsers.add(socket.id);
-
-  socket.on("disconnect", () => {
-    console.log("User disconnected:", socket.id);
-    connectedUsers.delete(socket.id);
+  io.on("connection", (socket) => {
+    console.log("A user connected:", socket.id);
+  
+    socket.on("disconnect", () => {
+      console.log("User disconnected:", socket.id);
+    });
   });
-});
+  
   
 
 
