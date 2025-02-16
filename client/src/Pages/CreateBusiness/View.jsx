@@ -1,99 +1,116 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import moment from "moment";
-import { useNavigate } from "react-router-dom";
 import "./Styles/View.css";
 
 const BusinessAppointments = () => {
   const [appointments, setAppointments] = useState([]);
-  const [selectedTab, setSelectedTab] = useState("upcoming"); // Track selected tab
-  const navigate = useNavigate();
+    const [upcomingAppointments, setUpcomingAppointments] = useState([]);
+    const [pastAppointments, setPastAppointments] = useState([]);
+    const [activeTab, setActiveTab] = useState("upcoming"); // Tracks which tab is active
+    const token = localStorage.getItem("token");
 
-  useEffect(() => {
-    const fetchAppointments = async () => {
+    const fetchAppointments = useCallback(async () => {
       try {
-        const token = localStorage.getItem("token");
         const response = await axios.get("https://bookingapp-server-henna.vercel.app/business/gmb", {
-          headers: { Authorization: token },
+          headers: {
+            "Authorization": token, // Send JWT in header
+            "Content-Type": "application/json",
+          },
         });
-        console.log(response);
+  
         setAppointments(response.data);
+  
+        const today = moment().startOf("day");
+  
+        setUpcomingAppointments(
+          response.data.filter((appt) =>
+            moment(appt.date).startOf("day").isSameOrAfter(today, "day")
+          )
+        );
+  
+        setPastAppointments(
+          response.data.filter((appt) =>
+            moment(appt.date).startOf("day").isBefore(today, "day")
+          )
+        );
       } catch (error) {
         console.error("Error fetching appointments:", error);
       }
-    };
+    }, [token, ]);
+  
+    useEffect(() => {
+      fetchAppointments();
+    }, [fetchAppointments]);
+       
 
-    fetchAppointments();
-  }, []);
+ 
 
-  const today = moment().format("YYYY-MM-DD");
+  
+  
+  
 
-  // Separate upcoming and past appointments
-  const upcomingAppointments = appointments.filter((appt) =>
-    moment(appt.date).isSameOrAfter(today)
-  );
-  const pastAppointments = appointments.filter((appt) =>
-    moment(appt.date).isBefore(today)
-  );
+  
 
-  // Handle appointment updates
-  const handleUpdate = (id) => {
-    navigate(`/update-appointment/${id}`);
-  };
-
-  // Handle appointment deletion
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`http://localhost:5000/business/appointments/${id}`);
-      setAppointments(appointments.filter((appt) => appt._id !== id));
-    } catch (error) {
-      console.error("Error deleting appointment:", error);
-    }
-  };
+  
+  
 
   return (
     <div className="appointments-container">
-      <h2>Your Appointments</h2>
+    <h1>Your Appointments</h1>
 
-      {/* Navbar to toggle upcoming/past appointments */}
-      <div className="navbar">
-        <button
-          className={selectedTab === "upcoming" ? "active" : ""}
-          onClick={() => setSelectedTab("upcoming")}
-        >
-          Upcoming
-        </button>
-        <button
-          className={selectedTab === "past" ? "active" : ""}
-          onClick={() => setSelectedTab("past")}
-        >
-          Past
-        </button>
-      </div>
+    {/* Navigation Tabs */}
+    <div className="navbar">
+      <button
+        className={activeTab === "upcoming" ? "active" : ""}
+        onClick={() => setActiveTab("upcoming")}
+      >
+        Upcoming Appointments
+      </button>
+      <button
+        className={activeTab === "past" ? "active" : ""}
+        onClick={() => setActiveTab("past")}
+      >
+        Past Appointments
+      </button>
+    </div>
 
-      {/* Appointment List */}
-      <div className="appointment-list">
-        {(selectedTab === "upcoming" ? upcomingAppointments : pastAppointments).length > 0 ? (
-          (selectedTab === "upcoming" ? upcomingAppointments : pastAppointments).map((appt) => (
-            <div key={appt._id} className="appointment-card">
-              <div className="appointment-details">
-                <p><strong>Service:</strong> {appt.service}</p>
-                <p><strong>Date:</strong> {appt.date}</p>
-                <p><strong>Time:</strong> {appt.time}</p>
-              </div>
-              {selectedTab === "upcoming" && (
-                <div className="button-group">
-                  <button className="update-btn" onClick={() => handleUpdate(appt._id)}>Update</button>
-                  <button className="cancel-btn" onClick={() => handleDelete(appt._id)}>Cancel</button>
-                </div>
-              )}
-            </div>
-          ))
+    {/* Appointment Lists */}
+    {activeTab === "upcoming" ? (
+      <div>
+        {upcomingAppointments.length === 0 ? (
+          <p>No upcoming appointments.</p>
         ) : (
-          <p>No {selectedTab === "upcoming" ? "upcoming" : "past"} appointments.</p>
+          <ul className="appointments-list">
+            {upcomingAppointments.map((appointment) => (
+              <li key={appointment._id} className="appointment-card">
+                <p><strong>Service:</strong> {appointment.service}</p>
+                <p><strong>Date:</strong> {appointment.date}</p>
+                <p><strong>Time:</strong> {appointment.time}</p>
+              </li>
+            ))}
+          </ul>
         )}
       </div>
-    </div>
+    ) : (
+      <div>
+        <h2>Past Appointments</h2>
+        {pastAppointments.length === 0 ? (
+          <p>No past appointments.</p>
+        ) : (
+          <ul className="appointments-list">
+            {pastAppointments.map((appointment) => (
+              <li key={appointment._id} className="appointment-card past">
+                <p><strong>Service:</strong> {appointment.service}</p>
+                <p><strong>Date:</strong> {appointment.date}</p>
+                <p><strong>Time:</strong> {appointment.time}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    )}
+  </div>
   );
 };
 
