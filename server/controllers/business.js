@@ -68,7 +68,7 @@ if (!gmb.length) {
 // Extract all gmbReferenceIds from businesses
 const gmbReferenceIds = gmb.map((g) => g.gmbReferenceId);
 
-// Fetch appointments for all businesses
+// Fetch  all appointments for businesses
 const appo = await Appointment.find({ gmbReferenceId: { $in: gmbReferenceIds } });
 
 res.json(appo);
