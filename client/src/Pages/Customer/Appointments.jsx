@@ -3,9 +3,7 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "./Styles/Appointments.css";
 import { io } from "socket.io-client";
-const socket = io("https://bookingapp-server-henna.vercel.app", {
-  transports: ["websocket"], // Ensure WebSocket connection
-});
+
 
 
 const BookAppointment = () => {
@@ -15,7 +13,7 @@ const BookAppointment = () => {
   const [date, setDate] = useState(""); // Selected date
   const [time, setTime] = useState(""); // Selected time
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [unavailableSlots, setUnavailableSlots] = useState([]);
+
 
   const services= location.state?.service || "";
   const availability = location.state?.availibility || [];
@@ -28,20 +26,7 @@ console.log(services)
   const availableSlots = availability.find((item) => item.date === date)?.slots || [];
   console.log(availableSlots)
 
-  useEffect(() => {
-    socket.on("connect", () => {
-      console.log("Connected to WebSocket server:", socket.id);
-    });
-
-    socket.on("disconnect", () => {
-      console.log("Disconnected from WebSocket server.");
-    });
-
-    return () => {
-      socket.off("connect");
-      socket.off("disconnect");
-    };
-  }, []);
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -32,12 +32,10 @@ app.get("/", ()=>{
 
 const io = new Server(4000, {
     cors: {
-        origin: "*",
-        methods: ["GET", "POST"],
+        origin: "https://bookingapp-client.vercel.app", // Allow frontend to connect via WebSocket
+    methods: ["GET", "POST"],
     },
   });
-
-  let connectedUsers = new Set();
 
   io.on("connection", (socket) => {
     console.log("A user connected:", socket.id);
@@ -46,8 +44,6 @@ const io = new Server(4000, {
       console.log("User disconnected:", socket.id);
     });
   });
-  
-  
 
 
 app.listen(5000, ()=>{
