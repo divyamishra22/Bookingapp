@@ -29,12 +29,13 @@ console.log(services)
   useEffect(() => {
     socket.on("slotBooked", ({ date, time }) => {
       setUnavailableSlots((prev) => [...prev, { date, time }]);
+      console.log(unavailableSlots)
     });
 
     return () => {
       socket.off("slotBooked");
     };
-  }, []);
+  }, [unavailableSlots]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
