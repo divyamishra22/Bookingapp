@@ -17,7 +17,10 @@ const AppointmentsPage = () => {
   const fetchAppointments = useCallback(async () => {
     try {
       const response = await axios.get("https://bookingapp-server-henna.vercel.app/customer/appointment", {
-        headers: { Authorization: token },
+        headers: {
+          "Authorization": token, // Send JWT in header
+          "Content-Type": "application/json",
+        },
       });
 
       setAppointments(response.data);
@@ -50,7 +53,10 @@ const AppointmentsPage = () => {
       const res = await axios.put(
         "https://bookingapp-server-henna.vercel.app/customer/update",
         { appointmentId, date: updatedDate, time: updatedTime }, // Passing ID in body
-        { headers: { Authorization: token } }
+       { headers: {
+          "Authorization": token, // Send JWT in header
+          "Content-Type": "application/json",
+        }}
       );
      console.log(res)
       setEditMode(null); // Exit edit mode after update
@@ -67,10 +73,10 @@ const AppointmentsPage = () => {
       console.log(appointmentId)
       const res = await axios.delete("https://bookingapp-server-henna.vercel.app/customer/delete", 
         { appointmentId, date: updatedDate, time: updatedTime },
-      {
-        headers: { Authorization: token },
-        
-      });
+        {headers: {
+          "Authorization": token, // Send JWT in header
+          "Content-Type": "application/json",
+        }});
       console.log(res)
       setAppointments(appointments.filter((appt) => appt._id !== appointmentId));
     } catch (error) {
