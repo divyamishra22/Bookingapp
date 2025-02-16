@@ -11,9 +11,9 @@ const BookAppointment = () => {
   const [time, setTime] = useState(""); // Selected time
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const services = location.state?.service || "";
+  const services= location.state?.service || "";
   const availability = location.state?.availability || [];
-
+console.log(services)
   // Extract available dates from availability array
   const availableDates = availability.map((item) => item.date);
   console.log(availableDates)
